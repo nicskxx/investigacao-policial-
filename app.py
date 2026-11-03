@@ -89,6 +89,47 @@ def salvar_suspeito():
     return redirect(url_for('home'))
 
 
+@app.route('/suspeitos')
+def mostrar_suspeitos():
+    conn = criar_conexao()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    cursor.execute("SELECT * FROM suspeitos")
+    lista_suspeitos = cursor.fetchall()
+
+    conn.close()
+
+    # Envia os dados do banco para o arquivo HTML que acabamos de criar
+    return render_template('mostrar_suspeitos.html', suspeitos=lista_suspeitos)
+
+
+@app.route('/casos')
+def mostrar_casos():
+    conn = criar_conexao()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    cursor.execute("SELECT * FROM casos")
+    lista_casos = cursor.fetchall()
+
+    conn.close()
+
+    return render_template('mostrar_casos.html', casos=lista_casos)
+
+@app.route('/investigadores')
+def mostrar_investigadores():
+    conn = criar_conexao()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    cursor.execute("SELECT * FROM investigadores")
+    lista_investigadores = cursor.fetchall()
+
+    conn.close()
+
+    return render_template('mostrar_casos.html', investigadores=lista_investigadores)
+
+
+
+
 
 
 if __name__ == '__main__':
