@@ -115,6 +115,7 @@ def mostrar_casos():
 
     return render_template('mostrar_casos.html', casos=lista_casos)
 
+
 @app.route('/investigadores')
 def mostrar_investigadores():
     conn = criar_conexao()
@@ -125,7 +126,7 @@ def mostrar_investigadores():
 
     conn.close()
 
-    return render_template('mostrar_casos.html', investigadores=lista_investigadores)
+    return render_template('mostrar_investigadores.html', investigadores=lista_investigadores)
 
 
 

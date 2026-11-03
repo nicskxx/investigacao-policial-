@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Investigação Policial – Investigadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  body {
+    background-color: #0b0b0d;
+    color: #e2e8f0;
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 900px;
+    margin: 120px auto 40px auto;
+    padding: 20px;
+  }
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    font-size: 2.5rem;
+    border-bottom: 2px solid #c8201f;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+  }
+  h1 span.red {
+    color: #c8201f;
+  }
+  .investigator-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #c8201f;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  .investigator-card h3 {
+    margin: 0 0 10px 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  .investigator-card p {
+    margin: 5px 0;
+    color: #a0aec0;
+  }
+  .back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #c8201f;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+  .back-btn:hover {
+    background-color: #a01918;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="/">Investigação<span> Policial</span></a>
+  <nav class="menu" aria-label="Principal">
+    <a href="/">Inicio</a>
+    <a href="/casos">Casos</a>
+    <a href="/suspeitos">Suspeitos</a>
+    <a href="/investigadores" aria-current="page">Investigadores</a>
+  </nav>
+</header>
+
+<div class="container">
+    <h1>Banco de Dados: <span class="red">Investigadores</span></h1>
+
+    {% if investigadores %}
+        {% for inv in investigadores %}
+        <div class="investigator-card">
+            <h3>{{ inv.nome }}</h3>
+            <p><strong>ID / Badge:</strong> {{ inv.id }}</p>
+            <p><strong>Cargo / Patente:</strong> {{ inv.cargo }}</p>
+            <!-- Ajuste os campos abaixo conforme as colunas reais da sua tabela 'investigadores' no PostgreSQL -->
+            <p><strong>Email:</strong> {{ inv.email }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhum investigador registrado no sistema no momento.</p>
+    {% endif %}
+
+    <a class="back-btn" href="/">Voltar à Página Inicial</a>
+</div>
+
+</body>
+</html>
