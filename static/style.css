@@ -78,6 +78,24 @@ h1 .red{display:block;color:var(--red)}
   font-size:15px;letter-spacing:.5px;padding:18px 38px;border-radius:2px;transition:background .2s,transform .2s}
 .cta:hover{background:var(--red-dark);transform:translateX(3px)}
 
+/* SOBRE */
+.sobre{max-width:1200px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(20px,3.5vw,64px)}
+.sobre-title{margin:0 0 clamp(48px,8vw,96px);text-align:center;font-family:var(--display);font-weight:700;
+  text-transform:uppercase;font-size:clamp(34px,5vw,64px);line-height:1.1;letter-spacing:1px;color:var(--paper)}
+.sobre-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(32px,4vw,64px)}
+.sobre-num{display:block;font-family:var(--display);font-weight:700;font-size:clamp(48px,6vw,80px);line-height:1;color:var(--red)}
+.sobre-item h3{margin:16px 0 20px;font-family:var(--display);font-weight:500;text-transform:uppercase;
+  font-size:clamp(24px,2.4vw,34px);letter-spacing:.5px;color:#fff}
+.sobre-item p{margin:0 0 28px;font-size:15px;line-height:1.8;color:#b9b5a8}
+.sobre-link{display:block;padding-top:20px;border-top:1px solid #555;font-family:var(--display);font-weight:500;
+  text-transform:uppercase;letter-spacing:2px;font-size:17px;color:var(--paper);transition:color .2s}
+.sobre-link:hover{color:var(--red)}
+.sobre-link:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+
+@media(max-width:900px){
+  .sobre-grid{grid-template-columns:1fr}
+}
+
 @media(max-width:900px){
   .menu{display:none}
   .board{width:100%;height:100%;opacity:.35}
