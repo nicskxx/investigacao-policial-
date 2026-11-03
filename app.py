@@ -51,6 +51,43 @@ def cadastrar_suspeito():
         'suspeito': dados
     }), 201
 
+from flask import render_template
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/novo-suspeito', methods=['GET'])
+def pagina_cadastrar_suspeito():
+    return render_template('cadastrar_suspeito.html')
+
+@app.route('/cadastrar-suspeito', methods=['POST'])
+def salvar_suspeito():
+
+    nome = request.form['nome']
+    data_nascimento = request.form['data_nascimento']
+    cpf = request.form['cpf']
+    endereco = request.form['endereco']
+    caso_id = request.form['caso_id']
+
+    conn = criar_conexao()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            '''
+            INSERT INTO suspeitos (nome, data_nascimento, cpf, endereco, caso_id) 
+            VALUES (%s, %s, %s, %s, %s)
+            ''',
+            (nome, data_nascimento, cpf, endereco, caso_id)
+        )
+        conn.commit()
+    except Exception as e:
+        print(f"Erro ao cadastrar: {e}")
+    finally:
+        conn.close()
+    return redirect(url_for('home'))
+
 
 
 

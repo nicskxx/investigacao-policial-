@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Suspeito</title>
+</head>
+<body>
+    <h1>Cadastro de Novo Suspeito</h1>
+
+    <!-- O action="/cadastrar-suspeito" envia os dados para a rota do Flask -->
+    <form action="/cadastrar-suspeito" method="POST">
+        <label>Nome:</label><br>
+        <input type="text" name="nome" required><br><br>
+
+        <label>Data de Nascimento:</label><br>
+        <input type="date" name="data_nascimento" required><br><br>
+
+        <label>CPF:</label><br>
+        <input type="text" name="cpf" placeholder="000.000.000-00" required><br><br>
+
+        <label>Endereço:</label><br>
+        <input type="text" name="endereco" required><br><br>
+
+        <label>ID do Caso Relacionado:</label><br>
+        <input type="number" name="caso_id" required><br><br>
+
+        <button type="submit">Cadastrar Suspeito</button>
+    </form>
+
+    <br>
+    <a href="/">Voltar para a Página Inicial</a>
+</body>
+</html>
