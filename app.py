@@ -129,7 +129,9 @@ def mostrar_investigadores():
     return render_template('mostrar_investigadores.html', investigadores=lista_investigadores)
 
 
-
+@app.route('/adicionar-informacoes')
+def pagina_adicionar_informacoes():
+    return render_template('adicionar_informacoes.html')
 
 
 
