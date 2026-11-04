@@ -1,33 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Cadastrar Suspeito</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111114">
+  <title>Cadastrar suspeito | Central de Investigações</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/cadastrar_suspeito.css">
+  <script src="../js/cadastrar_suspeito.js" defer></script>
 </head>
 <body>
-    <h1>Cadastro de Novo Suspeito</h1>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand"  aria-label="Central de Investigações - página inicial">
+        <span class="brand-mark">CI</span>
+        <span>CENTRAL <b>/ INVESTIGAÇÕES</b></span>
+      </a>
+      <a href="{{ url_for('home') }}" class="back-link"> Voltar ao início </a>
+    </header>
 
-    <!-- O action="/cadastrar-suspeito" envia os dados para a rota do Flask -->
-    <form action="/cadastrar-suspeito" method="POST">
-        <label>Nome:</label><br>
-        <input type="text" name="nome" required><br><br>
+    <section class="form-card" aria-labelledby="page-title">
+      <div class="form-heading">
+        <span class="section-tag"><i></i> NOVO REGISTRO <span>/ SUSPEITOS</span></span>
+        <h1 id="page-title">Cadastrar <em>suspeito.</em></h1>
+        <p>Adicione uma pessoa ao banco de registros da investigação. Preencha os campos abaixo com atenção.</p>
+      </div>
 
-        <label>Data de Nascimento:</label><br>
-        <input type="date" name="data_nascimento" required><br><br>
+      <form id="suspectForm" novalidate>
+        <div class="form-grid">
+          <div class="field field-full">
+            <label for="nome">Nome completo <span>*</span></label>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" autocomplete="name" required maxlength="120">
+          </div>
 
-        <label>CPF:</label><br>
-        <input type="text" name="cpf" placeholder="000.000.000-00" required><br><br>
+          <div class="field">
+            <label for="nascimento">Data de nascimento <span>*</span></label>
+            <input type="date" id="nascimento" name="nascimento" required>
+          </div>
 
-        <label>Endereço:</label><br>
-        <input type="text" name="endereco" required><br><br>
+          <div class="field">
+            <label for="cpf">CPF <span>*</span></label>
+            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" inputmode="numeric" autocomplete="off" maxlength="14" required>
+          </div>
 
-        <label>ID do Caso Relacionado:</label><br>
-        <input type="number" name="caso_id" required><br><br>
+          <div class="field field-full">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro e cidade" autocomplete="street-address" maxlength="180">
+          </div>
 
-        <button type="submit">Cadastrar Suspeito</button>
-    </form>
+          <div class="field field-full">
+            <label for="caso">ID do caso relacionado</label>
+            <input type="text" id="caso" name="caso" placeholder="Ex.: CASO-2026-001" maxlength="40">
+            <small class="field-hint">Campo opcional. Informe o código do caso, se houver.</small>
+          </div>
+        </div>
 
-    <br>
-    <a href="/">Voltar para a Página Inicial</a>
+        <div class="form-notice" role="note">
+          <span class="notice-icon" aria-hidden="true">!</span>
+          <p>Confira as informações antes de concluir. Dados pessoais devem ser tratados com acesso restrito.</p>
+        </div>
+
+        <button class="submit-button" type="submit">
+          <span>Cadastrar suspeito</span>
+          <span class="button-arrow" aria-hidden="true">→</span>
+        </button>
+        <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <footer class="form-bottom">
+        <a href="{{ url_for('home') }}" class="return-link"> Voltar para a página inicial </a>
+        <span class="required-note"><b>*</b> Campos obrigatórios</span>
+      </footer>
+    </section>
+
+    <footer class="page-caption">
+      <span></span>
+      <span>AMBIENTE DE DADOS <b>●</b></span>
+    </footer>
+  </main>
 </body>
 </html>
