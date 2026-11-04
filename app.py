@@ -89,6 +89,61 @@ def salvar_suspeito():
     return redirect(url_for('home'))
 
 
+@app.route('/novo-caso')
+def pagina_registrar_caso():
+    return render_template('registrar_caso.html')
+
+
+@app.route('/registrar-caso', methods=['POST'])
+def salvar_caso():
+
+    titulo = request.form['titulo']
+    tipo = request.form['tipo']
+    data_abertura = request.form['data_abertura']
+    local = request.form['local']
+    descricao = request.form['descricao']
+    status = request.form['status']
+
+    conn = criar_conexao()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            '''
+            INSERT INTO casos (
+                titulo,
+                tipo,
+                data_abertura,
+                local,
+                descricao,
+                status
+            )
+            VALUES (%s, %s, %s, %s, %s, %s)
+            ''',
+            (
+                titulo,
+                tipo,
+                data_abertura,
+                local,
+                descricao,
+                status
+            )
+        )
+
+        conn.commit()
+
+        print("Caso cadastrado com sucesso!")
+
+    except Exception as e:
+        conn.rollback()
+        print(f"Erro ao cadastrar caso: {e}")
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for('home'))
+
 @app.route('/suspeitos')
 def mostrar_suspeitos():
     conn = criar_conexao()

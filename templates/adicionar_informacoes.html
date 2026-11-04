@@ -20,6 +20,7 @@
     <a href="/investigadores">Investigadores</a>
     <a href="/suspeitos">Suspeitos</a>
     <a href="/adicionar-informacoes" aria-current="page">Adicionar novas informações</a>
+
   </nav>
 
 </header>
@@ -34,9 +35,9 @@
             <p>Adicionar novo suspeito, dados pessoais, CPF e vínculo com caso.</p>
         </a>
 
-        <a href="#" class="option-card">
-            <h3>Registrar Caso</h3>
-            <p>Abrir um novo dossiê de crime com descrição e tipo.</p>
+        <a href="{{ url_for('pagina_registrar_caso') }}" class="option-card">
+    <h3>Registrar Caso</h3>
+    <p>Abrir um novo dossiê de crime com descrição e tipo.</p>
         </a>
 
         <a href="#" class="option-card">
