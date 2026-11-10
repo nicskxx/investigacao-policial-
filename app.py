@@ -144,6 +144,10 @@ def salvar_caso():
 
     return redirect(url_for('home'))
 
+@app.route('/nova-evidencia')
+def pagina_registrar_caso():
+    return render_template('adicionar_evidencia.html')
+
 @app.route('/suspeitos')
 def mostrar_suspeitos():
     conn = criar_conexao()
