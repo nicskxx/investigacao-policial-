@@ -192,6 +192,71 @@ def mostrar_investigadores():
 def pagina_adicionar_informacoes():
     return render_template('adicionar_informacoes.html')
 
+@app.route('/inve-s', methods=['POST'])
+def cadastrar_testemunhas():
+    dados = request.get_json()
+
+    if not dados:
+        return jsonify({"erro": "Dados inválidos"}), 400
+
+    print(f"Nova testemunha: {dados}")
+
+    conn = criar_conexao()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        INSERT INTO testemunhas(nome, telefone, endereco,depoimento, caso_id) 
+        VALUES(%s, %s, %s, %s, %s)
+        RETURNING id;
+        ''',
+        (dados['nome'], dados['telefone'], dados['endereco'],
+         dados['depoimento'], dados['caso_id'])
+    )
+
+    novo_id = cursor.fetchone()[0]
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        'message': 'Suspeito cadastrado com sucesso!',
+        'id': novo_id,
+        'suspeito': dados
+    }), 201
+
+@app.route('/nova-testemunha', methods=['GET'])
+def pagina_cadastrar_testemunha():
+    return render_template('cadastrar_testemunha.html')
+
+@app.route('/cadastrar-testemunha', methods=['POST'])
+def salvar_testemunha():
+    nome = request.form['nome']
+    telefone = request.form['telefone']
+    endereco = request.form['endereco']
+    depoimento = request.form['depoimento']
+    caso_id = request.form['caso_id']
+
+    conn = criar_conexao()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            '''
+            INSERT INTO testemunhas (nome, telefone, endereco, depoimento, caso_id) 
+            VALUES (%s, %s, %s, %s, %s)
+            ''',
+            (nome, telefone, endereco, depoimento, caso_id)
+        )
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print(f"Erro ao cadastrar testemunha: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for('home'))
+
 
 
 if __name__ == '__main__':
