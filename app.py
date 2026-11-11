@@ -1,11 +1,15 @@
 from email import message
-
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session, flash
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from psycopg2.extras import RealDictCursor
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from database import criar_conexao
 
 app = Flask(__name__)
+
+
+app.secret_key = 'uma_chave_super_secreta_e_unica_aqui'
 
 @app.route('/inve', methods=['GET'])
 def mostrar_ivestigadores():
@@ -256,6 +260,75 @@ def salvar_testemunha():
         conn.close()
 
     return redirect(url_for('home'))
+
+
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        hashed_password = generate_password_hash(password)
+
+        conn = criar_conexao()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute(
+                "INSERT INTO users (email, password_hash) VALUES (%s, %s)",
+                (email, hashed_password)
+            )
+            conn.commit()
+            flash('Conta criada com sucesso! Faça login.', 'success')
+            return redirect(url_for('login'))
+        except Exception as e:
+            conn.rollback()
+            print(f"Erro ao registar: {e}")
+            flash('Este e-mail já pode estar registado.', 'danger')
+        finally:
+            cursor.close()
+            conn.close()
+
+    return render_template('register.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = criar_conexao()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+        cursor.execute("SELECT id, email, password_hash FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if user and check_password_hash(user['password_hash'], password):
+            session['user_id'] = user['id']
+            session['user_email'] = user['email']
+            flash('Login efetuado com sucesso!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('E-mail ou palavra-passe incorretos.', 'danger')
+
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('user_email', None)
+    flash('Terminou a sessão com sucesso.', 'success')
+    return redirect(url_for('login'))
+
+
+
 
 
 
